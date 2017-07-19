@@ -1,0 +1,16 @@
+language: java
+jdk: oraclejdk8
+
+install: true
+script:
+   - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then mvn -B clean package -B; fi'
+   - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then mvn -B clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar; fi'
+
+addons:
+  sonarcloud:
+    organization: "xfournet-github"
+
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'
