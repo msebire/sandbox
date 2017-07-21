@@ -10,13 +10,11 @@ if [ "$TRAVIS_SECURE_ENV_VARS" = "true" ]; then
     echo "Build, test and generate Sonar report"
     mvn -B clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar || exit 1
 
-    echo
-    echo "Build and sign with GPG"
-    mvn -B -P release -DskipTests=true -s ./ci/settings.xml clean verify || exit 1
-
-    echo
-    echo "Build output"
-    ls -l target */target
+    if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" -a "$OSSRH_USERNAME" != "" ]; then
+        echo
+        echo "Build, sign with GPG and deploy to OSSRH"
+        mvn -B -P publish -DskipTests=true -s ci/settings.xml clean deploy || exit 1
+    fi
 else
-    mvn -B clean verify
+    mvn -B clean verify || exit 1
 fi

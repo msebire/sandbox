@@ -2,13 +2,16 @@ language: java
 jdk: oraclejdk8
 
 install: true
-script: ./ci/travis-script.sh
+script: ci/travis-script.sh
 
 addons:
   sonarcloud:
-    organization: "xfournet-github"
+    organization: 'xfournet-github'
 
 cache:
   directories:
     - '$HOME/.m2/repository'
     - '$HOME/.sonar/cache'
+
+before_cache:
+  - rm -rf "$HOME/.m2/repository/io/github/xfournet/sandbox"
