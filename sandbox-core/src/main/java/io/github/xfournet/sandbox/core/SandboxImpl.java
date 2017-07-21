@@ -5,6 +5,6 @@ import io.github.xfournet.sandbox.Sandbox;
 public class SandboxImpl implements Sandbox {
     @Override
     public String sayHello(String name) {
-        return String.format("Hello %s!", name == null || name.isEmpty() ? "Anonymous" : name);
+        return String.format("Hello %s!", name == null || name.isEmpty() ? "anonymous" : name);
     }
 }
